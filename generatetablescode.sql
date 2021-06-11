@@ -60,7 +60,7 @@ execute procedure trigger_set_timestamp();
 create table tags(
 	id_tag serial primary key,
 	name varchar(50)
-)
+);
 
 ------------------------
 -- tabela rel_tags_post
@@ -80,7 +80,7 @@ create table videos(
 	id_post int not null,
 	url_video text,
 	foreign key (id_post) references posts (id_post)
-)
+);
 
 -------------
 -- tabela fotos
