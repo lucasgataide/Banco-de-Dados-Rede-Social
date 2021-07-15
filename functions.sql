@@ -40,15 +40,15 @@ AS $function$
 
 
 -- DELETAR USER
-
 CREATE OR REPLACE FUNCTION public.deletauser(id_userdel integer)
  RETURNS void
+ LANGUAGE plpgsql
 AS $function$
 	 declare rec_id_del_comment record;
  declare rec_id_del_post record;
       begin
 	      
-	delete from rel_user_user ruu where ruu.id_user = id_userdel;
+	delete from rel_user_user ruu where ruu.id_user = id_userdel or ruu.id_follow = id_userdel;
     
 	 for rec_id_del_comment in select id_comment from comments as c where c.id_user = id_userdel
    	 	loop
@@ -63,5 +63,5 @@ AS $function$
    delete from users u where u.id_user = id_userdel; 
       END;
       $function$
-      LANGUAGE plpgsql
+;
 ;
