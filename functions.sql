@@ -24,24 +24,20 @@ DELETE FROM comments c WHERE c.id_comment IN (SELECT r.id_comment FROM resp r);
 
 CREATE OR REPLACE FUNCTION public.deletapost(id_postdel integer)
  RETURNS void
+ LANGUAGE plpgsql
 AS $function$
 	declare rec_id_del record;
       begin
 	      
-	    delete from pictures where id_post = id_postdel;
+	delete from pictures where id_post = id_postdel;
         delete from videos where id_post = id_postdel;
-       
-	    for rec_id_del in select id_comment from comments as c where c.id_post = id_postdel
-   	 	loop
-    		perform deletacomment(rec_id_del.id_comment);
-   		end loop;
-   	
+	delete from comments where id_post = id_postdel;
         delete from rel_tag_post where id_post = id_postdel;
         delete from posts where id_post = id_postdel;
       END;
       $function$
-      LANGUAGE plpgsql
 ;
+
 
 -- DELETAR USER
 
@@ -68,22 +64,4 @@ AS $function$
       END;
       $function$
       LANGUAGE plpgsql
-;
-
--- ADICIONAR TAGS
-
-CREATE OR REPLACE FUNCTION public.adicionatag(id_postbanco integer, id_tagadd integer)
- RETURNS void
- LANGUAGE plpgsql
-AS $function$
-      begin
-	      
-	   declare teste
-       declare tagbanco integer;
-       if(select count(*) from tags where id_tag = id_tagadd) > 0
-		begin 
-			inser into testedebug values (666);
-		end
-      END;
-      $function$
 ;
